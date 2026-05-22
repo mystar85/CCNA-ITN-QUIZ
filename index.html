@@ -423,8 +423,12 @@
     border-top: 1px solid var(--border);
     box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
     flex-wrap: nowrap;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
+  .btn-row::-webkit-scrollbar { display: none; }
 
   .question-nav {
     display: flex;
