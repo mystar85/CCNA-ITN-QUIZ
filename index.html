@@ -2642,13 +2642,12 @@ function renderQuestion() {
   const canSubmit = isMatch ? matchSelections.every(v => v !== null) : false;
   const btnRow = document.getElementById('btnRow');
   btnRow.innerHTML = `
-    <button class="btn btn-ghost" onclick="prevQuestion()" ${current === 0 ? 'disabled' : ''}>← Prev</button>
     <select id="questionSelect" class="select-jump" onchange="goToQuestion(this.value)">
       ${jumpOptions}
     </select>
     <div class="btn-row-divider"></div>
     <button class="btn btn-ghost" onclick="returnToMenu()">Menu</button>
-    <button class="btn btn-ghost" onclick="skipQuestion()">Skip</button>
+    <button class="btn btn-ghost" onclick="prevQuestion()" ${current === 0 ? 'disabled' : ''}>← Prev</button>
     <button class="btn btn-primary" id="submitBtn" onclick="submitAnswer()" ${canSubmit ? '' : 'disabled'}>Check Answer</button>
     <button class="btn btn-ghost" onclick="nextQuestion()" ${current === total - 1 ? 'disabled' : ''}>Next →</button>
   `;
