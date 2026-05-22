@@ -233,6 +233,7 @@
   .match-item {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 12px;
     padding: 14px 18px;
     border: 1px solid var(--border);
@@ -257,11 +258,40 @@
   .match-item.pair-4.selected { border-color: #8b5cf6; background: rgba(139,92,246,0.16); }
   .match-item.correct {
     border-color: var(--correct);
-    background: rgba(0,255,157,0.08);
+    background: rgba(0,255,157,0.18);
+    box-shadow: 0 0 10px rgba(0,255,157,0.25), inset 0 0 8px rgba(0,255,157,0.08);
   }
   .match-item.wrong {
     border-color: var(--wrong);
-    background: rgba(255,68,102,0.08);
+    background: rgba(255,68,102,0.18);
+    box-shadow: 0 0 10px rgba(255,68,102,0.25), inset 0 0 8px rgba(255,68,102,0.08);
+  }
+  .match-item.correct .match-index {
+    border-color: var(--correct);
+    background: var(--correct);
+    color: #000;
+    font-weight: 700;
+  }
+  .match-item.wrong .match-index {
+    border-color: var(--wrong);
+    background: var(--wrong);
+    color: #fff;
+    font-weight: 700;
+  }
+  .match-item.correct .match-label { color: var(--correct); }
+  .match-item.wrong .match-label   { color: var(--wrong); }
+
+  .match-status-icon {
+    margin-left: auto;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .match-correct-hint {
+    font-size: 11px;
+    color: var(--correct);
+    margin-top: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 0.5px;
   }
   .match-index {
     width: 30px;
@@ -2511,7 +2541,7 @@ function renderQuestion() {
       return `
         <div class="match-item ${classes.join(' ')}" onclick="selectMatch('left', ${i})">
           <div class="match-index">${i + 1}</div>
-          <div class="option-text">${text}</div>
+          <div class="option-text match-label">${text}</div>
         </div>
       `;
     }).join('');
@@ -2524,7 +2554,7 @@ function renderQuestion() {
       return `
         <div class="match-item ${classes.join(' ')}" onclick="selectMatch('right', ${j})">
           <div class="match-index">${String.fromCharCode(65 + j)}</div>
-          <div class="option-text">${text}</div>
+          <div class="option-text match-label">${text}</div>
         </div>
       `;
     }).join('');
@@ -2647,17 +2677,26 @@ function submitAnswer() {
       map[l] = r;
       return map;
     }, {});
+    const reverseCorrect = {};
+    q.ans.forEach(([l, r]) => { reverseCorrect[r] = l; });
 
     document.querySelectorAll('.match-item').forEach((item, idx) => {
       item.classList.add('locked');
       item.style.cursor = 'default';
+
       if (idx < leftCount) {
         const leftIndex = idx;
         const selectedRight = matchSelections[leftIndex];
-        if (selectedRight === correctMap[leftIndex]) {
+        const correctRight = correctMap[leftIndex];
+
+        if (selectedRight === correctRight) {
           item.classList.add('correct');
+          item.insertAdjacentHTML('beforeend', `<span class="match-status-icon">✅</span>`);
         } else if (selectedRight !== null) {
           item.classList.add('wrong');
+          const correctLabel = String.fromCharCode(65 + correctRight);
+          item.insertAdjacentHTML('beforeend', `<span class="match-status-icon">❌</span>`);
+          item.insertAdjacentHTML('beforeend', `<div class="match-correct-hint">→ richtig: ${correctLabel}</div>`);
         }
       } else {
         const rightIndex = idx - leftCount;
@@ -2692,10 +2731,30 @@ function submitAnswer() {
   fb.classList.add('show');
   if (isCorrect) {
     fb.classList.add('correct-fb');
-    fb.innerHTML = '✅ Correct!';
+    fb.innerHTML = '✅ Richtig! Alle Zuordnungen korrekt.';
   } else {
     fb.classList.add('wrong-fb');
-    fb.innerHTML = '❌ Incorrect — correct answer highlighted in green.';
+    if (q.type === 'match') {
+      const correctMap = q.ans.reduce((map, [l, r]) => { map[l] = r; return map; }, {});
+      const lines = q.left.map((leftText, i) => {
+        const rightText = q.right[correctMap[i]];
+        const chosen = matchSelections[i];
+        const chosenText = chosen !== null ? q.right[chosen] : '—';
+        const ok = chosen === correctMap[i];
+        return `<div style="margin-top:6px;font-size:13px;">
+          <span style="color:${ok ? 'var(--correct)' : 'var(--wrong)'}">${ok ? '✓' : '✗'}</span>
+          <strong style="color:var(--text)">${i+1}.</strong>
+          ${ok
+            ? `<span style="color:var(--correct)">${leftText} → ${rightText}</span>`
+            : `<span style="color:var(--wrong);text-decoration:line-through">${leftText} → ${chosenText}</span>
+               <span style="color:var(--correct)"> → richtig: ${rightText}</span>`
+          }
+        </div>`;
+      }).join('');
+      fb.innerHTML = `<div><div>❌ Falsch — korrekte Zuordnungen:</div>${lines}</div>`;
+    } else {
+      fb.innerHTML = '❌ Falsch — richtige Antwort ist grün markiert.';
+    }
   }
 
   const btnRow = document.getElementById('btnRow');
