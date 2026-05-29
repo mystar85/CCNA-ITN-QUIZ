@@ -428,7 +428,7 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
-  .btn-row::-webkit-scrollbar { display: none; }
+  .btn-row-divider { display: none; }
 
   .question-nav {
     display: flex;
@@ -676,14 +676,13 @@
 
 <div class="main">
 
-  <!-- START SCREEN -->
   <div id="startScreen" class="start-screen">
     <span class="big-icon">🖥️</span>
     <h2>Cisco <span>Networking</span> Fundamentals</h2>
-    <p><span id="introCount">100</span> questions covering OSI model, TCP/IP, subnetting, protocols,<br>security, and Cisco IOS configuration.</p>
+    <p><span id="introCount">218</span> questions covering OSI model, TCP/IP, subnetting, protocols,<br>security, and Cisco IOS configuration.</p>
     <div class="stats-row">
-      <div class="stat-box"><div class="num" id="questionTotal">100</div><div class="label">Questions</div></div>
-      <div class="stat-box"><div class="num">~60</div><div class="label">Minutes</div></div>
+      <div class="stat-box"><div class="num" id="questionTotal">218</div><div class="label">Questions</div></div>
+      <div class="stat-box"><div class="num">~90</div><div class="label">Minutes</div></div>
       <div class="stat-box"><div class="num">Mixed</div><div class="label">Single & Multi</div></div>
     </div>
     <div style="margin:12px 0; display:flex; gap:8px; align-items:center; justify-content:center; width:100%; flex-wrap:wrap;">
@@ -693,13 +692,11 @@
     </div>
   </div>
 
-  <!-- QUIZ SCREEN -->
   <div id="quizScreen" class="hidden">
     <div class="question-card" id="questionCard"></div>
     <div class="btn-row" id="btnRow"></div>
   </div>
 
-  <!-- RESULTS SCREEN -->
   <div id="resultsScreen" class="hidden"></div>
 
 </div>
@@ -1240,9 +1237,8 @@ const questions = [
       "Implement network firewalls."
     ],
     ans: [1,2]
-  }
-,
-{
+  },
+  {
     q: "An administrator defined a local user account with a secret password on router R1 for use with SSH. Which three additional steps are required to configure R1 to accept only encrypted SSH connections? (Choose three.)",
     opts: [
       "Configure the IP domain name on the router.",
@@ -1568,7 +1564,7 @@ const questions = [
     ans: [0]
   },
   {
-    q: "Refer to the exhibit. A company uses the address block of 128.107.0.0/16 for its network. What subnet mask would provide the maximum number of equal size subnets while providing enough host addresses for each subnet in the exhibit?<br><img src=\"77.png\" alt=\"77\">",
+    q: "Refer to the exhibit. This address block has been subnetted using a /16 prefix. What subnet mask would provide the maximum number of equal size subnets while providing enough host addresses for each subnet in the exhibit?<br><img src=\"77.png\" alt=\"77\">",
     opts: [
       "255.255.255.128",
       "255.255.255.224",
@@ -1760,7 +1756,7 @@ const questions = [
     ans: [1]
   },
   {
-    q: "A network technician is researching the use of fiber optic cabling in a new technology center. Which two issues should be considered before implementing fiber optic media? (Choose two.)",
+    q: "A network researcher is examining single-mode and multimode optical fibers. Which two issues should be considered before implementing fiber optic media? (Choose two.)",
     opts: [
       "Fiber optic cabling requires different termination and splicing expertise from what copper cabling requires.",
       "Fiber optic cabling requires specific grounding to be immune to EMI.",
@@ -1882,7 +1878,7 @@ const questions = [
     ans: [3]
   },
   {
-    q: "Match the characteristic to the category.",
+    q: "Match the characteristic to the data link or network layer identifier.",
     type: "match",
     left: [
       "Contained in the Layer 3 header",
@@ -1934,7 +1930,7 @@ const questions = [
     ans: [1, 2, 5]
   },
   {
-    q: "A user is executing a tracert to a remote device. At what point would a router, which is in the path to the destination device, stop forwarding the packet?",
+    q: "An administrator is executing a tracert to a remote device. At what point would a router, which is in the path to the destination device, stop forwarding the packet?",
     opts: [
       "when the values of both the Echo Request and Echo Reply messages reach zero",
       "when the value in the TTL field reaches zero",
@@ -2227,6 +2223,7 @@ const questions = [
       "network access",
       "internet"
     ],
+    nav: 3,
     ans: [3]
   },
   {
@@ -2539,6 +2536,633 @@ const questions = [
     ],
     ans: [0]
   },
+  /* --- PDF QUESTIONS (164 - 218) --- */
+  {
+    q: "What happens when a switch receives a frame and the calculated CRC value is different than the value that is in the FCS field?",
+    opts: [
+      "The switch drops the frame.",
+      "The switch places the new CRC value in the FCS field and forwards the frame.",
+      "The switch notifies the source of the bad frame.",
+      "The switch floods the frame to all ports except the port through which the frame arrived to notify the hosts of the error."
+    ],
+    ans: [0]
+  },
+  {
+    q: "Which two functions are performed at the LLC sublayer of the OSI Data Link Layer to facilitate Ethernet communication? (Choose two.)",
+    opts: [
+      "implements CSMA/CD over legacy shared half-duplex media",
+      "places information in the Ethernet frame that identifies which network layer protocol is being encapsulated by the frame",
+      "integrates Layer 2 flows between 10 Gigabit Ethernet over fiber and 1 Gigabit Ethernet over copper",
+      "adds Ethernet control information to network protocol data",
+      "applies source and destination MAC addresses to Ethernet frame"
+    ],
+    ans: [1, 3]
+  },
+  {
+    q: "What is an important concept related to the cut-through method of switching?",
+    opts: [
+      "Fast-forward switching can be viewed as a compromise between store-and-forward switching and fragment-free switching.",
+      "The fragment-free switching offers the lowest level of latency.",
+      "Fragment-free switching is the typical cut-through method of switching.",
+      "Fast-forward switching offers the lowest level of latency and it is the typical cut-through method of switching."
+    ],
+    ans: [3]
+  },
+  {
+    q: "Which two issues can cause both runts and giants in Ethernet networks? (Choose two.)",
+    opts: [
+      "electrical interference on serial interfaces",
+      "half-duplex operations",
+      "CRC errors",
+      "a malfunctioning NIC",
+      "using the incorrect cable type"
+    ],
+    ans: [1, 3]
+  },
+  {
+    q: "Only employees connected to IPv6 interfaces are having difficulty connecting to remote networks. The analyst wants to verify that IPv6 routing has been enabled. What is the best command to use to accomplish the task?",
+    opts: [
+      "show running-config",
+      "show interfaces",
+      "copy running-config startup-config",
+      "show ip nat translations"
+    ],
+    ans: [0]
+  },
+  {
+    q: "Which two commands could be used to check if DNS name resolution is working properly on a Windows PC? (Choose two.)",
+    opts: [
+      "net cisco.com",
+      "nbtstat cisco.com",
+      "nslookup cisco.com",
+      "ping cisco.com",
+      "ipconfig /flushdns"
+    ],
+    ans: [2, 3]
+  },
+  {
+    q: "A small advertising company has a web server that provides critical business service. The company connects to the Internet through a leased line service to an ISP. Which approach best provides cost effective redundancy for the Internet connection?",
+    opts: [
+      "Add a second NIC to the web server.",
+      "Add another web server to prepare failover support.",
+      "Add a connection to the Internet via a DSL line to another ISP.",
+      "Add multiple connections between the switches and the edge router."
+    ],
+    ans: [2]
+  },
+  {
+    q: "The employees and residents of Ciscoville cannot access the Internet or any remote web-based services. IT workers quickly determine that the city firewall is being flooded with so much traffic that a breakdown of connectivity to the Internet is occurring. Which type of attack is being launched at Ciscoville?",
+    opts: [
+      "reconnaissance",
+      "Trojan horse",
+      "DoS",
+      "access"
+    ],
+    ans: [2]
+  },
+  {
+    q: "What are two ways to protect a computer from malware? (Choose two.)",
+    opts: [
+      "Delete unused software.",
+      "Keep software up to date.",
+      "Use antivirus software.",
+      "Defragment the hard disk.",
+      "Empty the browser cache."
+    ],
+    ans: [1, 2]
+  },
+  {
+    q: "A network administrator is issuing the login block-for 180 attempts 2 within 30 command on a router. Which threat is the network administrator trying to prevent?",
+    opts: [
+      "an unidentified individual who is trying to access the network equipment room",
+      "a device that is trying to inspect the traffic on a link",
+      "a worm that is attempting to access another part of the network",
+      "a user who is trying to guess a password to access the router"
+    ],
+    ans: [3]
+  },
+  {
+    q: "Which statement describes the characteristics of packet-filtering and stateful firewalls as they relate to the OSI model?",
+    opts: [
+      "Both stateful and packet-filtering firewalls can filter at the application layer.",
+      "A packet-filtering firewall typically can filter up to the transport layer, whereas a stateful firewall can filter up to the session layer.",
+      "A stateful firewall can filter application layer information, whereas a packet-filtering firewall cannot filter beyond the network layer.",
+      "A packet-filtering firewall uses session layer information to track the state of a connection, whereas a stateful firewall uses application layer information to track the state of a connection."
+    ],
+    ans: [1]
+  },
+  {
+    q: "Two students are working on a network design project. One student is doing the drawing, while the other student is writing the proposal. The drawing is finished and the student wants to share the folder that contains the drawing so that the other student can access the file and copy it to a USB drive. Which networking model is being used?",
+    opts: [
+      "client-based",
+      "point-to-point",
+      "master-slave",
+      "peer-to-peer"
+    ],
+    ans: [3]
+  },
+  {
+    q: "Which command is used to manually query a DNS server to resolve a specific host name?",
+    opts: [
+      "tracert",
+      "ipconfig /displaydns",
+      "nslookup",
+      "net"
+    ],
+    ans: [2]
+  },
+  {
+    q: "What service is provided by POP3?",
+    opts: [
+      "An application that allows real-time chatting among remote users.",
+      "Allows remote access to network devices and servers.",
+      "Uses encryption to provide secure remote access to network devices and servers.",
+      "Retrieves email from the server by downloading the email to the local mail application of the client."
+    ],
+    ans: [3]
+  },
+  {
+    q: "To which TCP port group does the port 414 belong?",
+    opts: [
+      "private or dynamic",
+      "registered",
+      "well-known",
+      "public"
+    ],
+    ans: [2]
+  },
+  {
+    q: "Refer to the exhibit. Frame 2044 captures HTTPS traffic with a source port of 443 and destination port of 53167. What does the value of the window size specify?",
+    opts: [
+      "the total number of bits received during this TCP session",
+      "the amount of data that can be sent at one time",
+      "the amount of data that can be sent before an acknowledgment is required",
+      "a random number that is used in establishing a connection with the 3-way handshake"
+    ],
+    ans: [2]
+  },
+  {
+    q: "A client packet is received by a server. The packet has a destination port number of 22. What service is the client requesting?",
+    opts: [
+      "DHCP",
+      "SSH",
+      "DNS",
+      "TFTP"
+    ],
+    ans: [1]
+  },
+  {
+    q: "Which two ICMP messages are used by both IPv4 and IPv6 protocols? (Choose two.)",
+    opts: [
+      "neighbor solicitation",
+      "protocol unreachable",
+      "router advertisement",
+      "route redirection",
+      "router solicitation"
+    ],
+    ans: [1, 3]
+  },
+  {
+    q: "What task might a user be trying to accomplish by using the ping 127.0.0.1 address on a host computer?",
+    opts: [
+      "checking the IP address on the network card",
+      "tracing the path to a host computer on the network",
+      "pinging a remote host computer on the network",
+      "testing the integrity of the TCP/IP stack on the local machine"
+    ],
+    ans: [3]
+  },
+  {
+    q: "Network information states that the local router's WAN interface is 198.133.219.33 / 2001:db8:FACE:39::10. What task might a user be trying to accomplish by using the ping 2001:db8:FACE:39::10 command?",
+    opts: [
+      "verifying that there is connectivity within the local network",
+      "verifying that there is connectivity to the Internet",
+      "creating a network performance benchmark to a server on the company intranet",
+      "determining the path to reach the remote server"
+    ],
+    ans: [1]
+  },
+  {
+    q: "What type of IPv6 address is represented by ::1/128?",
+    opts: [
+      "EUI-64 generated link-local",
+      "global unicast",
+      "unspecified",
+      "loopback"
+    ],
+    ans: [3]
+  },
+  {
+    q: "Refer to the exhibit. A user issues the command netstat -r on a workstation. Which IPv6 address is a global unicast address of the workstation?",
+    opts: [
+      "fe80::/64",
+      "::1/128",
+      "fe80::30d0:115:3f57:fe4c/128",
+      "2001:0:9d38:6ab8:30d0:115:3f57:fe4c/128"
+    ],
+    ans: [3]
+  },
+  {
+    q: "Which is the compressed format of the IPv6 address fe80:0000:0000:0000:0220:0b3f:f0e0:0029?",
+    opts: [
+      "fe80:9ea0::2020::bf:e0:9290",
+      "fe80::220:b3f:f0e0:29",
+      "fe80:9ea:0:2200::fe0:290",
+      "fe80:9ea0::2020:0:bf:e0:9290"
+    ],
+    ans: [1]
+  },
+  {
+    q: "What does the IP address 192.168.1.15/29 represent?",
+    opts: [
+      "subnetwork address",
+      "multicast address",
+      "unicast address",
+      "broadcast address"
+    ],
+    ans: [3]
+  },
+  {
+    q: "Given network 172.18.109.0, which subnet mask would be used if 6 host bits were available?",
+    opts: [
+      "255.255.255.248",
+      "255.255.255.252",
+      "255.255.255.192",
+      "255.255.192.0",
+      "255.255.224.0"
+    ],
+    ans: [2]
+  },
+  {
+    type: "match",
+    q: "Match the network address and the broadcast address with each subnet based on these devices: Subnet 1 (192.168.10.77/28), Subnet 2 (192.168.10.17/30), Subnet 3 (192.168.10.35/29).",
+    left: [
+      "Subnet 1 Network Number",
+      "Subnet 1 Broadcast Address",
+      "Subnet 2 Network Number",
+      "Subnet 2 Broadcast Address",
+      "Subnet 3 Network Number",
+      "Subnet 3 Broadcast Address"
+    ],
+    right: [
+      "192.168.10.64",
+      "192.168.10.79",
+      "192.168.10.16",
+      "192.168.10.19",
+      "192.168.10.32",
+      "192.168.10.39"
+    ],
+    ans: [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+      [3, 3],
+      [4, 4],
+      [5, 5]
+    ]
+  },
+  {
+    q: "What type of address is 198.133.219.162?",
+    opts: [
+      "loopback",
+      "public",
+      "multicast",
+      "link-local"
+    ],
+    ans: [1]
+  },
+  {
+    type: "match",
+    q: "Match the Cisco IOS command with the device mode at which the command is entered.",
+    left: [
+      "enable",
+      "copy running-config startup-config",
+      "service password-encryption",
+      "login",
+      "ip address 192.168.4.4 255.255.255.0"
+    ],
+    right: [
+      "R1>",
+      "R1#",
+      "R1(config)#",
+      "R1(config-line)#",
+      "R1(config-if)#"
+    ],
+    ans: [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+      [3, 3],
+      [4, 4]
+    ]
+  },
+  {
+    q: "A router boots and enters setup mode. What is the reason for this?",
+    opts: [
+      "The IOS image is corrupt.",
+      "The configuration file is missing from NVRAM.",
+      "Cisco IOS is missing from flash memory.",
+      "The POST process has detected hardware failure."
+    ],
+    ans: [1]
+  },
+  {
+    q: "Refer to the exhibit. A network administrator is connecting a new host to the Registrar LAN (interface Gi0/1: 192.168.235.234/24). The host needs to communicate with remote networks. What IP address would be configured as the default gateway on the new host?",
+    opts: [
+      "192.168.235.1",
+      "10.234.235.254",
+      "192.168.235.234",
+      "192.168.234.114",
+      "203.0.113.3"
+    ],
+    ans: [2]
+  },
+  {
+    q: "Refer to the exhibit. The exhibit shows a small switched network. PC1 has sent a frame addressed to PC3. The MAC address of PC3 is not present in the MAC table of the switch. What will the switch do with the frame?",
+    opts: [
+      "The switch will forward the frame to all ports.",
+      "The switch will forward the frame to all ports except port 4.",
+      "The switch will forward the frame only to port 2.",
+      "The switch will forward the frame only to ports 1 and 3.",
+      "The switch will discard the frame."
+    ],
+    ans: [1]
+  },
+  {
+    q: "Refer to the exhibit. PC1 issues an ARP request because it needs to send a packet to PC3 (located on a remote network via router RT1 interface Fa0/0). In this scenario, what will happen next?",
+    opts: [
+      "RT1 will forward the ARP request to PC3.",
+      "RT1 will send an ARP reply with PC3's MAC address.",
+      "SW1 will send an ARP reply with its Fa0/1 MAC address.",
+      "RT1 will send an ARP reply with its own Fa0/1 MAC address.",
+      "RT1 will send an ARP reply with its own Fa0/0 MAC address."
+    ],
+    ans: [4]
+  },
+  {
+    q: "Which destination address is used in an ARP request frame?",
+    opts: [
+      "255.255.255.255",
+      "0.0.0.0",
+      "the physical address of the destination host",
+      "FFFF.FFFF.FFFF",
+      "AAAA.AAAA.AAAA"
+    ],
+    ans: [3]
+  },
+  {
+    q: "Which term describes a field in the IPv4 packet header that contains a unicast, multicast, or broadcast address of the final destination processing host?",
+    opts: [
+      "destination IPv4 address",
+      "header checksum",
+      "TTL",
+      "protocol"
+    ],
+    ans: [0]
+  },
+  {
+    q: "Why is NAT not needed in IPv6?",
+    opts: [
+      "The end-to-end connectivity problems that are caused by NAT are solved because the number of routes increases with the number of nodes.",
+      "Because IPv6 has integrated security, there is no need to hide the IPv6 addresses of internal networks.",
+      "Any host or user can get a public IPv6 network address because the number of available IPv6 addresses is extremely large.",
+      "The problems that are induced by NAT applications are solved because the IPv6 header improves packet handling by intermediate routers."
+    ],
+    ans: [2]
+  },
+  {
+    q: "If the default gateway is configured incorrectly on the host, what is the impact on communications?",
+    opts: [
+      "The host can communicate with other hosts on remote networks, but is unable to communicate with hosts on the local network.",
+      "The host can communicate with other hosts on the local network, but is unable to communicate with hosts on remote networks.",
+      "The host is unable to communicate on the local network.",
+      "There is no impact on communications."
+    ],
+    ans: [1]
+  },
+  {
+    q: "What routing table entry has a next hop address associated with a destination network?",
+    opts: [
+      "remote routes",
+      "local routes",
+      "directly-connected routes",
+      "C and L source routes"
+    ],
+    ans: [0]
+  },
+  {
+    q: "A network team is comparing topologies for connecting on a shared media. Which physical topology is an example of a hybrid topology for a LAN?",
+    opts: [
+      "extended star",
+      "partial mesh",
+      "ring",
+      "bus"
+    ],
+    ans: [0]
+  },
+  {
+    q: "Although CSMA/CD is still a feature of Ethernet, why is it no longer necessary in modern switched local networks?",
+    opts: [
+      "the use of Gigabit Ethernet speeds",
+      "the development of half-duplex switch operation",
+      "the use of CSMA/CA",
+      "the virtually unlimited availability of IPv6 addresses",
+      "the use of full-duplex capable Layer 2 switches"
+    ],
+    ans: [4]
+  },
+  {
+    q: "Which two acronyms represent the data link sublayers that Ethernet relies upon to operate? (Choose two.)",
+    opts: [
+      "CSMA",
+      "MAC",
+      "LLC",
+      "SFD",
+      "FCS"
+    ],
+    ans: [1, 2]
+  },
+  {
+    q: "What is the very first thing a router does step-by-step when it receives a Layer 2 frame over the network medium interface?",
+    opts: [
+      "re-encapsulates the packet into a new frame",
+      "determines the best path to forward the packet",
+      "forwards the new frame appropriate to the medium",
+      "de-encapsulates the frame"
+    ],
+    ans: [3]
+  },
+  {
+    q: "Refer to the exhibit. A network diagram shows a PC connected via links of 10 Mb/s, 100 Mb/s, 128 kb/s, and 1000 Mb/s to a Server. What is the maximum possible throughput between the PC and the server?",
+    opts: [
+      "10 Mb/s",
+      "128 kb/s",
+      "1000 Mb/s",
+      "100 Mb/s"
+    ],
+    ans: [1]
+  },
+  {
+    type: "match",
+    q: "Match the network media type with the appropriate description.",
+    left: [
+      "STP",
+      "coaxial",
+      "optical fiber",
+      "wireless"
+    ],
+    right: [
+      "This type of copper media is used in industrial or similar environments where there is a lot of interference.",
+      "Traditionally used for television but can now be used in a network to connect the customer location.",
+      "This type of media is used for high transmission speed and can also transfer data over long distances.",
+      "This type of media provides the most mobility options."
+    ],
+    ans: [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+      [3, 3]
+    ]
+  },
+  {
+    q: "What OSI physical layer term describes the measure of the transfer of bits across a medium over a given period of time?",
+    opts: [
+      "throughput",
+      "latency",
+      "bandwidth",
+      "goodput"
+    ],
+    ans: [0]
+  },
+  {
+    q: "Which two statements describe the characteristics of fiber-optic cabling? (Choose two.)",
+    opts: [
+      "Fiber-optic cabling uses LEDs for single-mode cables and laser technology for multimode cables.",
+      "Fiber-optic cabling has high signal loss.",
+      "Multimode fiber-optic cabling carries signals from multiple sending devices simultaneously.",
+      "Fiber-optic cabling is primarily used as backbone cabling.",
+      "Fiber-optic cabling does not conduct electricity."
+    ],
+    ans: [3, 4]
+  },
+  {
+    q: "Which two OSI model layers have the same functionality as two layers of the TCP/IP model? (Choose two.)",
+    opts: [
+      "physical",
+      "session",
+      "transport",
+      "data link",
+      "network"
+    ],
+    ans: [2, 4]
+  },
+  {
+    q: "Which three layers of the OSI model are comparable in function to the application layer of the TCP/IP model? (Choose three.)",
+    opts: [
+      "physical",
+      "data link",
+      "presentation",
+      "network",
+      "application",
+      "transport",
+      "session"
+    ],
+    ans: [2, 4, 6]
+  },
+  {
+    q: "Which PDU is processed when a host computer is de-encapsulating a message at the transport layer of the TCP/IP model?",
+    opts: [
+      "bits",
+      "packet",
+      "frame",
+      "segment"
+    ],
+    ans: [3]
+  },
+  {
+    q: "What is a characteristic of a switch virtual interface (SVI)?",
+    opts: [
+      "SVIs do not require the no shutdown command to become enabled.",
+      "An SVI is created in software and requires a configured IP address and a subnet mask in order to provide remote access to the switch.",
+      "SVIs come preconfigured on Cisco switches and cannot be modified.",
+      "Although it is a virtual interface, it needs to have physical hardware on the device associated with it."
+    ],
+    ans: [1]
+  },
+  {
+    type: "match",
+    q: "Match the operating system descriptions to the correct terms.",
+    left: [
+      "the part of the OS that interacts directly with the device hardware",
+      "users interact with the operating system by typing commands",
+      "the part of the operating system that interfaces with applications and the user",
+      "enables the user to interact with the operating system by pointing and clicking"
+    ],
+    right: [
+      "kernel",
+      "CLI",
+      "shell",
+      "GUI"
+    ],
+    ans: [
+      [0, 0],
+      [1, 1],
+      [2, 2],
+      [3, 3]
+    ]
+  },
+  {
+    q: "What is a user trying to determine when issuing a ping 10.1.1.1 command on a PC?",
+    opts: [
+      "the path that traffic will take to reach the destination",
+      "if there is connectivity with the destination device",
+      "what type of device is at the destination",
+      "if the TCP/IP stack is functioning on the PC without putting traffic on the wire"
+    ],
+    ans: [1]
+  },
+  {
+    q: "Refer to the exhibit. An administrator is trying to configure a switch but receives the error: 'Switch1> config t \\n Invalid input detected'. What is the problem?",
+    opts: [
+      "The administrator must connect via the console port to access global configuration mode.",
+      "The administrator is already in global configuration mode.",
+      "The administrator must first enter privileged EXEC mode before issuing the command.",
+      "The entire command, configure terminal, must be used."
+    ],
+    ans: [2]
+  },
+  {
+    q: "Which two devices would be described as intermediary devices? (Choose two.)",
+    opts: [
+      "IPS",
+      "retail scanner",
+      "wireless LAN controller",
+      "assembly line robots",
+      "server",
+      "gaming console"
+    ],
+    ans: [0, 2]
+  },
+  {
+    q: "Which statement describes network security?",
+    opts: [
+      "It synchronizes traffic flows using timestamps.",
+      "It supports growth over time in accordance with approved network design procedures.",
+      "It prioritizes data flows in order to give priority to delay-sensitive traffic.",
+      "It ensures sensitive corporate data is available for authorized users."
+    ],
+    ans: [3]
+  },
+  {
+    q: "What characteristic describes spyware?",
+    opts: [
+      "a network device that filters access and traffic coming into a network",
+      "the use of stolen credentials to access private data",
+      "software that is installed on a user device and collects information about the user",
+      "an attack that slows or crashes a device or network service"
+    ],
+    ans: [2]
+  }
 ];
 
 // preserve original order index for optional restore (1-based to match question numbers)
@@ -2567,8 +3191,12 @@ function shuffleArray(arr) {
 }
 
 // ── Favorites ────────────────────────────────────────────────
-// Pre-defined favorite question numbers (1-based)
-const DEFAULT_FAVS = new Set([14,21,24,27,34,37,39,42,58,64,84,90,91,93,94,95,96,97,99,101,102,106,107,109,116,122,132,134,136,141,144,146,148,149,150,152,156,163]);
+// Extended favorite question numbers (1-based) from 38 to 93 items
+const DEFAULT_FAVS = new Set([
+  14,21,24,27,34,37,39,42,58,64,84,90,91,93,94,95,96,97,99,101,102,106,107,109,116,122,132,134,136,141,144,146,148,149,150,152,156,163,
+  164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,
+  197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218
+]);
 
 function loadFavorites() {
   try {
@@ -2711,7 +3339,7 @@ function renderQuestion() {
           ${leftItems}
         </div>
         <div class="match-column">
-          <div class="match-column-title">IP Address</div>
+          <div class="match-column-title">Mapping Options</div>
           ${rightItems}
         </div>
       </div>
