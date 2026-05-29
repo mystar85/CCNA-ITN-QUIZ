@@ -597,6 +597,47 @@
   .hidden { display: none !important; }
 
   /* ── Mobile (iPhone 13 mini = 375px) ── */
+  /* ── Favorites ── */
+  .fav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    padding: 2px 4px;
+    transition: transform 0.15s;
+    opacity: 0.4;
+    color: var(--text);
+    flex-shrink: 0;
+  }
+  .fav-btn.active { opacity: 1; filter: drop-shadow(0 0 6px #ffd700); }
+  .fav-btn:hover { transform: scale(1.2); opacity: 0.8; }
+
+  .q-meta { display: flex; align-items: center; gap: 8px; }
+  .q-meta .q-num { flex: 1; }
+
+  .fav-count-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,215,0,0.12);
+    border: 1px solid rgba(255,215,0,0.35);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 13px;
+    color: #ffd700;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .btn-fav {
+    background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,165,0,0.1));
+    border: 1px solid rgba(255,215,0,0.5);
+    color: #ffd700;
+  }
+  .btn-fav:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(255,215,0,0.28), rgba(255,165,0,0.2));
+    border-color: #ffd700;
+    box-shadow: 0 0 14px rgba(255,215,0,0.3);
+  }
+
   @media (max-width: 430px) {
     header h1 { font-size: 14px; letter-spacing: 1px; }
 
@@ -645,9 +686,10 @@
       <div class="stat-box"><div class="num">~60</div><div class="label">Minutes</div></div>
       <div class="stat-box"><div class="num">Mixed</div><div class="label">Single & Multi</div></div>
     </div>
-    <div style="margin:12px 0; display:flex; gap:8px; align-items:center; justify-content:center; width:100%;">
+    <div style="margin:12px 0; display:flex; gap:8px; align-items:center; justify-content:center; width:100%; flex-wrap:wrap;">
       <button class="btn btn-primary" onclick="startQuiz(false)">▶ START</button>
-      <button class="btn" onclick="startQuiz(true)">▶ START (Random)</button>
+      <button class="btn btn-primary" onclick="startQuiz(true)">🔀 MIX (66 Fragen)</button>
+      <button class="btn btn-fav" onclick="startFavQuiz()" id="favQuizBtn">⭐ FAVORITEN (<span id="favCount">0</span>)</button>
     </div>
   </div>
 
@@ -2499,8 +2541,8 @@ const questions = [
   },
 ];
 
-// preserve original order index for optional restore
-questions.forEach((q,i)=> q._originalIndex = i);
+// preserve original order index for optional restore (1-based to match question numbers)
+questions.forEach((q,i)=> q._originalIndex = i + 1);
 
 const introCount = document.getElementById('introCount');
 const questionTotal = document.getElementById('questionTotal');
@@ -2524,7 +2566,61 @@ function shuffleArray(arr) {
   return copy;
 }
 
+// ── Favorites ────────────────────────────────────────────────
+// Pre-defined favorite question numbers (1-based)
+const DEFAULT_FAVS = new Set([14,21,24,27,34,37,39,42,58,64,84,90,91,93,94,95,96,97,99,101,102,106,107,109,116,122,132,134,136,141,144,146,148,149,150,152,156,163]);
+
+function loadFavorites() {
+  try {
+    const stored = localStorage.getItem('ccna_favorites');
+    if (stored) return new Set(JSON.parse(stored));
+  } catch(e) {}
+  return new Set(DEFAULT_FAVS);
+}
+function saveFavorites() {
+  try { localStorage.setItem('ccna_favorites', JSON.stringify([...favorites])); } catch(e) {}
+}
+
+let favorites = loadFavorites();
+updateFavCount();
+
+function toggleFavorite(origIdx) {
+  if (favorites.has(origIdx)) favorites.delete(origIdx);
+  else favorites.add(origIdx);
+  saveFavorites();
+  updateFavCount();
+  // Re-render just the star button without full re-render
+  const btn = document.querySelector('.fav-btn');
+  if (btn) {
+    btn.classList.toggle('active', favorites.has(origIdx));
+  }
+}
+
+function updateFavCount() {
+  const el = document.getElementById('favCount');
+  if (el) el.textContent = favorites.size;
+  const btn = document.getElementById('favQuizBtn');
+  if (btn) btn.disabled = favorites.size === 0;
+}
+
+function startFavQuiz() {
+  if (favorites.size === 0) return;
+  questions.forEach(q => { delete q._shuffle; delete q._shuffledOpts; delete q._shuffledAns; });
+  questions.sort((a, b) => a._originalIndex - b._originalIndex);
+  const favQs = questions.filter(q => favorites.has(q._originalIndex));
+  questions.splice(0, questions.length, ...favQs);
+  current = 0; selected = []; activeMatch = -1; matchSelections = []; answered = false; score = 0; results = [];
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  document.getElementById('headerProgress').style.display = 'flex';
+  renderQuestion();
+}
+// ─────────────────────────────────────────────────────────────
+
 function startQuiz(shuffle = false) {
+  // Clear answer-shuffle cache on every question so options are re-randomised each run
+  questions.forEach(q => { delete q._shuffle; delete q._shuffledOpts; delete q._shuffledAns; });
+
   try {
     questions.sort((a, b) => a._originalIndex - b._originalIndex);
   } catch (e) {
@@ -2533,8 +2629,10 @@ function startQuiz(shuffle = false) {
 
   if (shuffle) {
     try {
+      // Pick 66 random questions, then shuffle them
       const shuffled = shuffleArray(questions);
-      questions.splice(0, questions.length, ...shuffled);
+      const subset = shuffled.slice(0, 66);
+      questions.splice(0, questions.length, ...subset);
     } catch (e) {
       console.warn('Question shuffle failed:', e);
     }
@@ -2560,12 +2658,11 @@ function renderQuestion() {
   let opts = q.opts;
   let correct = q.ans;
   if (!isMatch) {
-    if (!q._shuffle || q._shuffle.length !== q.opts.length) {
-      const order = shuffleArray(q.opts.map((_, i) => i));
-      q._shuffle = order;
-      q._shuffledOpts = order.map(i => q.opts[i]);
-      q._shuffledAns = q.ans.map(a => order.indexOf(a)).sort((a, b) => a - b);
-    }
+    // Always re-shuffle so every question visit gets a fresh random order
+    const order = shuffleArray(q.opts.map((_, i) => i));
+    q._shuffle = order;
+    q._shuffledOpts = order.map(i => q.opts[i]);
+    q._shuffledAns = q.ans.map(a => order.indexOf(a)).sort((a, b) => a - b);
     opts = q._shuffledOpts;
     correct = q._shuffledAns;
   }
@@ -2629,10 +2726,14 @@ function renderQuestion() {
     contentHTML = `<div class="options" id="options">${optionsHTML}</div>`;
   }
 
+  const origIdx = q._originalIndex;
+  const isFav = favorites.has(origIdx);
+
   document.getElementById('questionCard').innerHTML = `
     <div class="q-meta">
       <span class="q-num">Q ${current + 1} / ${total}</span>
       ${isMatch ? `<span class="q-tag">MATCH</span>` : isMulti ? `<span class="q-tag multi">⚡ CHOOSE ${q.ans.length}</span>` : '<span class="q-tag">SINGLE CHOICE</span>'}
+      <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(${origIdx})" title="Favorit">⭐</button>
     </div>
     <div class="question-text">${q.q.replace(/\n/g,'<br>')}</div>
     ${contentHTML}
